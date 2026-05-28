@@ -1,0 +1,13 @@
+{
+  "$comment": "Your controlled vocabulary. 'build' refuses any source/medium/campaign not listed here, so analytics never splinters into linkedin / LinkedIn / li. 'lint' scans the files under scanDirs for links to urlHost that forgot their tags. Copy to utm.vocab.json and edit. examples/content/ deliberately contains one tagged and one untagged link so the lint demo has something to catch.",
+  "baseUrl": "https://example.com",
+  "sources": ["newsletter", "linkedin", "x", "facebook", "instagram", "youtube", "reddit"],
+  "mediums": ["social", "email", "referral"],
+  "campaigns": ["launch", "weekly", "evergreen"],
+  "lint": {
+    "scanDirs": ["examples/content"],
+    "extensions": [".md", ".mdx", ".html", ".txt"],
+    "urlHost": "example.com",
+    "requireParam": "utm_source"
+  }
+}
