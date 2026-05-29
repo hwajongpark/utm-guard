@@ -1,8 +1,6 @@
-<!--
-  BANNER: drop a 600x200 banner here before launch.
-  drag an image into a GitHub issue comment to get a CDN URL, then:
-  <p align="center"><img src="URL" alt="utm-guard" width="600"></p>
--->
+<p align="center">
+  <img src="assets/social-preview.png" alt="utm-guard — clean analytics, enforced at the source." width="820">
+</p>
 
 <p align="center">
   <img alt="npm version" src="https://img.shields.io/npm/v/utm-guard?color=black">
@@ -54,7 +52,7 @@ The second command is refused because the vocabulary only allows lowercase `link
 See it work:
 
 ```bash
-git clone https://github.com/hwajpark/utm-guard
+git clone https://github.com/hwajongpark/utm-guard
 cd utm-guard
 npm run demo:build    # prints a tagged URL
 npm run demo:refuse   # shows a refusal
@@ -124,6 +122,10 @@ One `utm.vocab.json` at your project root. The included [`examples/utm.vocab.exa
 - It does not talk to Google Analytics or any provider. It governs the links you create and ship, which is the part you control.
 - It does not rewrite existing links. `lint` reports them with file and line; you fix them.
 - It does not check that the destination resolves. It checks that the tag is present and from your vocabulary.
+
+## Contributing
+
+Contributions are welcome. Bug reports, a `lint` false positive, an untagged link it missed, or an idea for a new check all help. The fastest way to land a fix is a failing example under [`examples/content/`](examples/content) plus the result you expected.
 
 ## License
 
