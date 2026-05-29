@@ -98,7 +98,10 @@ function lint(args, vocab) {
     console.error('Set "lint.urlHost" in your vocabulary (the domain whose outbound links must be tagged).');
     process.exit(2);
   }
-  const hostRe = new RegExp(`https?:\\/\\/(?:www\\.)?${host.replace(/\./g, "\\.")}\\b[^\\s"'<>)\\]\\\\}|\`]*`, "gi");
+  // Escape every regex metacharacter in the configured host, not just dots, so
+  // a host value cannot inject regex (broken matches, or a catastrophic-backtracking pattern).
+  const escapedHost = host.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const hostRe = new RegExp(`https?:\\/\\/(?:www\\.)?${escapedHost}\\b[^\\s"'<>)\\]\\\\}|\`]*`, "gi");
   const assetRe = /\.(png|jpe?g|webp|gif|svg|ico|pdf|mp4|mov|webm|css|js|woff2?|ttf)(?:[?#]|$)/i;
   const paramRe = new RegExp(`[?&]${param}=`);
 

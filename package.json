@@ -1,6 +1,6 @@
 {
   "name": "utm-guard",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Build UTM-tagged URLs from a controlled vocabulary that refuses unknown values, and lint your files for links that forgot their tags. Keeps your analytics clean at the source.",
   "type": "module",
   "bin": {
