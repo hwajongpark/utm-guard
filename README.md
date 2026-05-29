@@ -5,6 +5,8 @@
 -->
 
 <p align="center">
+  <img alt="npm version" src="https://img.shields.io/npm/v/utm-guard?color=black">
+  <img alt="npm downloads" src="https://img.shields.io/npm/dm/utm-guard?color=black">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-black">
 </p>
 
