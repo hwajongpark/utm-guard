@@ -27,6 +27,14 @@
   ],
   "author": "Howard Park",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hwajongpark/utm-guard.git"
+  },
+  "homepage": "https://github.com/hwajongpark/utm-guard#readme",
+  "bugs": {
+    "url": "https://github.com/hwajongpark/utm-guard/issues"
+  },
   "engines": {
     "node": ">=18"
   }
