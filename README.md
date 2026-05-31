@@ -6,6 +6,8 @@
   <img alt="npm version" src="https://img.shields.io/npm/v/utm-guard?color=black">
   <img alt="npm downloads" src="https://img.shields.io/npm/dm/utm-guard?color=black">
   <img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-black">
+  <img alt="Node 18+" src="https://img.shields.io/badge/node-%3E%3D18-black">
+  <img alt="Zero dependencies" src="https://img.shields.io/badge/dependencies-0-black">
 </p>
 
 # utm-guard
