@@ -29,7 +29,7 @@ The fix is one idea: **write your allowed values down once, then enforce them.**
 Two commands around one vocabulary:
 
 - **`build`** makes a tagged URL, and refuses any value that is not in your vocabulary.
-- **`lint`** scans your files for outbound links to your domain that are missing their tag.
+- **`lint`** scans your files for outbound links to your domain that are missing their tag or carry a value outside your vocabulary.
 
 ## Demo
 
@@ -42,9 +42,9 @@ utm-guard: refused.
   --source "LinkedIn" is not in the vocabulary. Allowed: newsletter, linkedin, x, facebook, instagram, youtube, reddit
 
 $ utm-guard lint
-utm-guard: FAIL. 1 example.com link(s) missing utm_source across 1 file(s).
+utm-guard: FAIL. 1 example.com link issue(s) across 1 file(s).
 
-  examples/content/bad-post.md:7  https://example.com/guides/how-jeonse-works
+  examples/content/bad-post.md:7  missing utm_source: https://example.com/guides/how-jeonse-works
 ```
 
 The second command is refused because the vocabulary only allows lowercase `linkedin`. That refusal is the whole point: the bad value never makes it into a real link.
@@ -107,7 +107,7 @@ One `utm.vocab.json` at your project root. The included [`examples/utm.vocab.exa
 
 - **`baseUrl`**: lets `build` tag a relative path like `/guides/arc`.
 - **`sources`, `mediums`, `campaigns`**: your allowed values. `build` refuses anything not listed. `source` and `medium` are required; `campaign` is optional.
-- **`lint`**: where to scan, which file types, the domain whose outbound links must be tagged, and the param they must carry.
+- **`lint`**: where to scan, which file types, the domain whose outbound links must be tagged, and the param they must carry. If a link already has `utm_source`, `utm_medium`, or `utm_campaign`, the value must be in the vocabulary.
 
 ## How It Works
 
@@ -123,7 +123,7 @@ One `utm.vocab.json` at your project root. The included [`examples/utm.vocab.exa
 
 - It does not talk to Google Analytics or any provider. It governs the links you create and ship, which is the part you control.
 - It does not rewrite existing links. `lint` reports them with file and line; you fix them.
-- It does not check that the destination resolves. It checks that the tag is present and from your vocabulary.
+- It does not check that the destination resolves. It checks that the tag is present and that known UTM values are from your vocabulary.
 
 ## Contributing
 

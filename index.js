@@ -43,6 +43,40 @@ function parseFlags(args) {
   return { flags, positional };
 }
 
+function vocabRuleForParam(vocab, param) {
+  const rules = {
+    utm_source: vocab.sources,
+    utm_medium: vocab.mediums,
+    utm_campaign: vocab.campaigns,
+  };
+  return rules[param];
+}
+
+function validateUtmParams(rawUrl, vocab, requiredParam) {
+  const issues = [];
+  let url;
+  try {
+    url = new URL(rawUrl);
+  } catch {
+    return issues;
+  }
+
+  if (!url.searchParams.has(requiredParam)) {
+    issues.push(`missing ${requiredParam}`);
+  }
+
+  for (const param of ["utm_source", "utm_medium", "utm_campaign"]) {
+    const allowed = vocabRuleForParam(vocab, param);
+    if (!Array.isArray(allowed) || !url.searchParams.has(param)) continue;
+    const value = url.searchParams.get(param);
+    if (!allowed.includes(value)) {
+      issues.push(`${param} "${value}" is not in the vocabulary. Allowed: ${allowed.join(", ")}`);
+    }
+  }
+
+  return issues;
+}
+
 function build(args, vocab) {
   const { flags, positional } = parseFlags(args);
   const target = positional[0];
@@ -103,7 +137,6 @@ function lint(args, vocab) {
   const escapedHost = host.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   const hostRe = new RegExp(`https?:\\/\\/(?:www\\.)?${escapedHost}\\b[^\\s"'<>)\\]\\\\}|\`]*`, "gi");
   const assetRe = /\.(png|jpe?g|webp|gif|svg|ico|pdf|mp4|mov|webm|css|js|woff2?|ttf)(?:[?#]|$)/i;
-  const paramRe = new RegExp(`[?&]${param}=`);
 
   const issues = [];
   let scanned = 0;
@@ -130,8 +163,10 @@ function lint(args, vocab) {
           while ((m = hostRe.exec(line)) !== null) {
             const u = m[0];
             if (assetRe.test(u)) continue;
-            if (paramRe.test(u)) continue;
-            issues.push({ file: p, line: i + 1, url: u });
+            const urlIssues = validateUtmParams(u, vocab, param);
+            for (const reason of urlIssues) {
+              issues.push({ file: p, line: i + 1, url: u, reason });
+            }
           }
         });
       }
@@ -144,8 +179,8 @@ function lint(args, vocab) {
     process.exit(0);
   }
   const files = new Set(issues.map((i) => i.file));
-  console.error(`utm-guard: FAIL. ${issues.length} ${host} link(s) missing ${param} across ${files.size} file(s).\n`);
-  for (const it of issues) console.error(`  ${it.file}:${it.line}  ${it.url}`);
+  console.error(`utm-guard: FAIL. ${issues.length} ${host} link issue(s) across ${files.size} file(s).\n`);
+  for (const it of issues) console.error(`  ${it.file}:${it.line}  ${it.reason}: ${it.url}`);
   process.exit(1);
 }
 
