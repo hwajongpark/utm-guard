@@ -11,9 +11,10 @@
     "examples"
   ],
   "scripts": {
-    "demo:build": "node index.js build /guides/arc-registration --source linkedin --medium social --campaign launch --vocab examples/utm.vocab.example.json",
+    "demo:build": "node index.js build /guides/arc-registration --source linkedin --campaign launch --vocab examples/utm.vocab.example.json",
     "demo:refuse": "node index.js build /guides/arc-registration --source LinkedIn --medium social --vocab examples/utm.vocab.example.json",
-    "demo:lint": "node index.js lint --vocab examples/utm.vocab.example.json"
+    "demo:lint": "node index.js lint --vocab examples/utm.vocab.example.json",
+    "test": "node --test test/utm-guard.test.js"
   },
   "keywords": [
     "utm",
